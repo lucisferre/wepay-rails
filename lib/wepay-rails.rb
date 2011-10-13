@@ -189,12 +189,40 @@ module WepayRails
         JSON.parse(response.body)
       end
 
+      def create_account(params)
+        response = self.class.post("#{@base_uri}/account/create", {:headers => wepay_auth_header}.merge!(:body => params))
+        JSON.parse(response.body)
+      end
+      
+      def get_account(account_id)
+        response = self.class.get("#{@base_uri}/account", {:headers => wepay_auth_header}.merge!(:query => { account_id: account_id }))
+        JSON.parse(response.body)
+      end
+
+      def find_account(args)
+        response = self.class.get("#{@base_uri}/account/find", {:headers => wepay_auth_header}.merge!(:query => args))
+        JSON.parse(response.body)
+      end
+
+      def modify_account(params)
+        response = self.class.put("#{@base_uri}/account/find", {:headers => wepay_auth_header}.merge!(:body => args))
+        JSON.parse(response.body)
+      end
+
+      def delete_account(account_id)
+        response = self.class.delete("#{@base_uri}/account", {:headers => wepay_auth_header}.merge!(:query => { account_id: account_id }))
+        JSON.parse(response.body)
+      end
+
+      def get_account_balance(account_id)
+        response = self.class.get("#{@base_uri}/account/balance", {:headers => wepay_auth_header}.merge!(:query => { account_id: account_id }))
+        JSON.parse(response.body)
+      end
     end
 
     include WepayRails::Exceptions
     include WepayRails::Helpers::ControllerHelpers
   end
-
 
   def self.included(base)
     base.extend WepayRails::Helpers::ModelHelpers
